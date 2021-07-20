@@ -3,10 +3,10 @@ name: Ubuntu 18.04
 on: 
   workflow_dispatch:
     inputs:
-      username:
-        description: Enter your username:
+      uname:
+        description: Enter your username
         required: true
-      password:
+      pword:
         description: Enter your password
         required: true
 jobs:
@@ -16,7 +16,6 @@ jobs:
       - uses: actions/checkout@v2
       - name: Run settting file
         run: |
-          #sudo bash ./linux_config/setting.sh ${{ github.event.inputs.username }} ${{ github.event.inputs.password }} ${{ secrets.NGROK_TOKEN }}
-          sudo bash ./linux_config/setting.sh
+          sudo bash ./linux_config/setting.sh ${{ github.event.inputs.uname }} ${{ github.event.inputs.pword }} ${{ secrets.NGROK_TOKEN }}
       - name: Ubuntu ready to go 
         run: sleep 1d
