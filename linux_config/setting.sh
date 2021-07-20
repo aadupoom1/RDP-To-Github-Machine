@@ -3,7 +3,7 @@ sudo apt-get update
 sudo apt install xfce4 xfce4-goodies xorg dbus-x11 x11-xserver-utils
 
 # Add user
-sudo adduser $1 --gecos "First Last,RoomNumber,WorkPhone,HomePhone" --disabled-password
+sudo adduser $1 --gecos "$1,RoomNumber,WorkPhone,HomePhone" --disabled-password
 echo "$1:$2" | sudo chpasswd
 
 
