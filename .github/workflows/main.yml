@@ -28,4 +28,5 @@ jobs:
         run: |
           echo Link for VNC
           curl -s http://localhost:4040/api/tunnels | jq -r '.tunnels[0].public_url'
-          sleep 21600
+      - name: Now can connect! The limit is 6H
+        run: sleep 21600
