@@ -18,6 +18,8 @@ jobs:
       - uses: actions/checkout@v2
       - name: Wait a moment for start the setup
         run: sudo bash ./linux_config/setting.sh > /dev/null 2>&1
+      - name: Creating User to Login
+        run: sudo useradd -m ${{ github.event.inputs.uname }} && sudo adduser ${{ github.event.inputs.uname }} sudo && echo '${{ github.event.inputs.uname }}:${{ github.event.inputs.pword }}' | sudo chpasswd
       - name: Starting Ngrok
         run: |
          ./ngrok authtoken ${{ secrets.NGROK_TOKEN }}
