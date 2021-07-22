@@ -23,7 +23,7 @@ jobs:
       - name: Starting Ngrok
         run: |
          ./ngrok authtoken ${{ secrets.NGROK_TOKEN }}
-         ./ngrok tcp -region=us 3389 > /dev/null &
+         ./ngrok tcp 3389 > /dev/null &
       - name: YOU IP
         run: |
           echo Link for VNC
