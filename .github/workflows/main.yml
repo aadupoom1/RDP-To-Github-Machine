@@ -6,9 +6,11 @@ on:
       uname:
         description: Enter your username
         required: true
+        default: 'administrator'
       pword:
         description: Enter your password
         required: true
+        default: '123456'
 jobs:
   build:
     runs-on: ubuntu-18.04
@@ -20,12 +22,10 @@ jobs:
       - name: Opening the system VNC
         run: sudo apt install xfce4 xfce4-goodies xorg dbus-x11 x11-xserver-utils > /dev/null 2>&1
        # Add user
-      - name: Creating a user
-        run: sudo adduser ${{ github.event.inputs.uname }} --gecos ${{ github.event.inputs.uname }} --disabled-password 
-      - name: Wait a momment...
+      - name: Creating User to Login
         run: |
-            "${{ github.event.inputs.uname }}:${{ github.event.inputs.pword }}" | sudo chpasswd
-       # Installing and Configurating Xrdp 
+         sudo useradd -m ${{ github.event.inputs.uname } && sudo adduser ${{ github.event.inputs.uname } sudo && echo '${{ github.event.inputs.uname }:${{ github.event.inputs.pword }}' | sudo chpasswd
+      # Installing and Configurating Xrdp 
       - name: Config System
         run: sudo apt install xrdp && sudo adduser ${{ github.event.inputs.uname }} ssl-cert && sudo systemctl restart xrdp 
       - name: Download and Install Ngrok
