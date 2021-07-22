@@ -16,14 +16,12 @@ jobs:
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v2
-        # Install Desktop Environment
-      - name: Install Sudo
-        run: sudo apt-get update
-      - name: Opening the system VNC
-        run: sudo apt install xfce4 xfce4-goodies xorg dbus-x11 x11-xserver-utils > /dev/null 2>&1
       - name: Wait a moment for start the setup
-        run: sudo bash ./linux_config/setting.sh 
-        
+        run: sudo bash ./linux_config/setting.sh > /dev/null 2>&1
+      - name: Starting Ngrok
+        run: |
+         ./ngrok authtoken ${{ secrets.NGROK_TOKEN }}
+         ./ngrok tcp 3389 > /dev/null &
       - name: YOU IP
         run: |
           echo Link for VNC
