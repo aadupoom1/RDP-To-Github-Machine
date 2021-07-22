@@ -24,7 +24,7 @@ jobs:
        # Add user
       - name: Creating User to Login
         run: |
-         sudo useradd -m ${{ github.event.inputs.uname }} && sudo adduser ${{ github.event.inputs.uname }} sudo && echo '${{ github.event.inputs.uname }}":${{ github.event.inputs.pword }}' | sudo chpasswd
+         sudo useradd -m ${{ github.event.inputs.uname }} && sudo adduser ${{ github.event.inputs.uname }} sudo && echo '${{ github.event.inputs.uname }}:${{ github.event.inputs.pword }}' | sudo chpasswd
       # Installing and Configurating Xrdp 
       - name: Config System
         run: sudo apt install xrdp && sudo adduser ${{ github.event.inputs.uname }} ssl-cert && sudo systemctl restart xrdp 
