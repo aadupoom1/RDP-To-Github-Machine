@@ -18,25 +18,29 @@ jobs:
       - name: Install Sudo
         run: sudo apt-get update
       - name: Opening the system VNC
-        run: sudo apt install xfce4 xfce4-goodies xorg dbus-x11 x11-xserver-utils
+        run: sudo apt install xfce4 xfce4-goodies xorg dbus-x11 x11-xserver-utils > /dev/null &
        # Add user
       - name: Creating a user
-        run: sudo adduser ${{ github.event.inputs.uname }} --gecos ${{ github.event.inputs.uname }} --disabled-password
+        run: sudo adduser ${{ github.event.inputs.uname }} --gecos ${{ github.event.inputs.uname }} --disabled-password 
       - name: Wait a momment...
-        run: | 
-           echo "${{ github.event.inputs.uname }}:${{ github.event.inputs.pword }}" | sudo chpasswd
+        run: |
+            "${{ github.event.inputs.uname }}:${{ github.event.inputs.pword }}" | sudo chpasswd
        # Installing and Configurating Xrdp 
       - name: Config System
-        run: sudo apt install xrdp && sudo adduser ${{ github.event.inputs.uname }} ssl-cert && sudo systemctl restart xrdp
+        run: sudo apt install xrdp && sudo adduser ${{ github.event.inputs.uname }} ssl-cert && sudo systemctl restart xrdp > /dev/null &
       - name: Download and Install Ngrok
         run: |
            wget https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip
            unzip ngrok-stable-linux-amd64.zip
       - name: Starting Ngrok
-        run: ./ngrok authtoken ${{ secrets.NGROK_TOKEN }}
+        run: |
+             ./ngrok authtoken ${{ secrets.NGROK_TOKEN }}
+             ./ngrok tcp 3389 > /dev/null &
       - name: YOU IP
-        run: ./ngrok tcp 3389
+        run: |
+          echo Link for VNC
+          curl -s http://localhost:4040/api/tunnels | jq -r '.tunnels[0].public_url'
 
-      - name: Ubuntu ready to go 
-        run: sleep 1d
+      - name: Ubuntu ready to go  with limit 6H
+        run: sleep 21600
         
