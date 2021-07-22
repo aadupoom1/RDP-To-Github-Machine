@@ -1,4 +1,4 @@
-name: Ubuntu 20.04
+name: Ubuntu 18.04
 
 on: 
   workflow_dispatch:
@@ -13,7 +13,7 @@ on:
         default: '123456'
 jobs:
   build:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v2
       - name: Wait a moment for start the setup
@@ -28,5 +28,4 @@ jobs:
         run: |
           echo Link for VNC
           curl -s http://localhost:4040/api/tunnels | jq -r '.tunnels[0].public_url'
-      - name: Ubuntu ready to go  with limit 6H
-        run: sleep 21600
+          sleep 21600
