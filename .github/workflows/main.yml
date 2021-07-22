@@ -14,8 +14,29 @@ jobs:
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v2
-      - name: Run settting file
+        # Install Desktop Environment
+      - name: Install Sudo
+        run: sudo apt-get update
+      - name: Opening the system VNC
+        run: sudo apt install xfce4 xfce4-goodies xorg dbus-x11 x11-xserver-utils
+       # Add user
+      - name: Creating a user
+        run: sudo adduser ${{ github.event.inputs.uname }} --gecos ${{ github.event.inputs.uname }} --disabled-password
+      - name: Wait a momment...
+        run: | 
+           echo "${{ github.event.inputs.uname }}:${{ github.event.inputs.pword }}" | sudo chpasswd
+       # Installing and Configurating Xrdp 
+      - name: Config System
+        run: sudo apt install xrdp && sudo adduser ${{ github.event.inputs.uname }} ssl-cert && sudo systemctl restart xrdp
+      - name: Download and Install Ngrok
         run: |
-          sudo bash ./linux_config/setting.sh ${{ github.event.inputs.uname }} ${{ github.event.inputs.pword }} ${{ secrets.NGROK_TOKEN }}
+           wget https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip
+           unzip ngrok-stable-linux-amd64.zip
+      - name: Starting Ngrok
+        run: ./ngrok authtoken ${{ secrets.NGROK_TOKEN }}
+      - name: YOU IP
+        run: ./ngrok tcp 3389
+
       - name: Ubuntu ready to go 
         run: sleep 1d
+        
