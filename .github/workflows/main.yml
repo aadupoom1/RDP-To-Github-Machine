@@ -16,29 +16,17 @@ jobs:
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v2
-        # Install Desktop Environment
-      - name: Install Sudo
-        run: sudo apt-get update
-      - name: Opening the system VNC
-        run: sudo apt install xfce4 xfce4-goodies xorg dbus-x11 x11-xserver-utils > /dev/null 2>&1
-       # Add user
+      - name: Wait a moment for start the setup
+        run: sudo bash ./linux_config/setting.sh > /dev/null 2>&1
       - name: Creating User to Login
-        run: |
-         sudo useradd -m ${{ github.event.inputs.uname }} && sudo adduser ${{ github.event.inputs.uname }} sudo && echo '${{ github.event.inputs.uname }}:${{ github.event.inputs.pword }}' | sudo chpasswd
-      # Installing and Configurating Xrdp 
-      - name: Config System
-        run: sudo apt install xrdp && sudo adduser ${{ github.event.inputs.uname }} ssl-cert && sudo systemctl restart xrdp 
-      - name: Download and Install Ngrok
-        run: |
-           wget https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip
-           unzip ngrok-stable-linux-amd64.zip
+        run: sudo useradd -m ${{ github.event.inputs.uname }} && sudo adduser ${{ github.event.inputs.uname }} sudo && echo '${{ github.event.inputs.uname }}:${{ github.event.inputs.pword }}' | sudo chpasswd
       - name: Starting Ngrok
         run: |
-             ./ngrok authtoken ${{ secrets.NGROK_TOKEN }}
-             ./ngrok tcp 3389 > /dev/null &
+         ./ngrok authtoken ${{ secrets.NGROK_TOKEN }}
+         ./ngrok tcp 3389 > /dev/null &
       - name: YOU IP
         run: |
           echo Link for VNC
           curl -s http://localhost:4040/api/tunnels | jq -r '.tunnels[0].public_url'
-      - name: Ubuntu ready to go  with limit 6H
+      - name: Now can connect! The limit is 6H
         run: sleep 21600
