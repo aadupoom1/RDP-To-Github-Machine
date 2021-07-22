@@ -6,6 +6,3 @@ sudo apt install xrdp && sudo adduser ${{ github.event.inputs.uname }} ssl-cert 
 
 #Download and Install Ngrok
 wget https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip && unzip ngrok-stable-linux-amd64.zip
-
-#Starting Ngrok
-./ngrok authtoken ${{ secrets.NGROK_TOKEN }} && ./ngrok tcp 3389 > /dev/null &
