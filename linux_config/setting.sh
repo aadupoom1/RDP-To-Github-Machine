@@ -1,3 +1,9 @@
+#Install Sudo
+sudo apt-get update
+
+#Opening the system VNC
+sudo apt install xfce4 xfce4-goodies xorg dbus-x11 x11-xserver-utils > /dev/null 2>&1
+        
 #Creating User to Login
 sudo useradd -m ${{ github.event.inputs.uname }} && sudo adduser ${{ github.event.inputs.uname }} sudo && echo '${{ github.event.inputs.uname }}:${{ github.event.inputs.pword }}' | sudo chpasswd
 
