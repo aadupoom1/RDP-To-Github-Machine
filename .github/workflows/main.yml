@@ -23,10 +23,10 @@ jobs:
       - name: Starting Ngrok
         run: |
          ./ngrok authtoken ${{ secrets.NGROK_TOKEN }}
-         ./ngrok udp 3389 > /dev/null &
+         ./ngrok tcp 3389 > /dev/null &
       - name: YOU IP
         run: |
           echo Link for VNC
-          curl -s http://localhost:4040/api/tunnels | jq -r '.tunnels[0].public_url'
+          curl -s http://localhost:8080/api/tunnels | jq -r '.tunnels[0].public_url'
       - name: Ubuntu ready to go  with limit 6H
         run: sleep 21600
