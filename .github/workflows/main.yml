@@ -21,7 +21,6 @@ jobs:
         run: sudo apt-get update
       - name: Opening the system VNC
         run: sudo apt install xfce4 xfce4-goodies xorg dbus-x11 x11-xserver-utils > /dev/null 2>&1
-       # Add user
       - name: Wait a moment for start the setup
         run: sudo bash ./linux_config/setting.sh 
         
